@@ -218,7 +218,7 @@ st.dataframe(results, hide_index = True, use_container_width=True)
 #======================
 #Potential calculations
 #======================
-st.header("Earth Potential Calculations at Given Chainage and Anode-Pipeline Distance")
+#st.header("Earth Potential Calculations at Given Chainage and Anode-Pipeline Distance")
 
 zeta = st.number_input(
     "Input Chainage from active anode bed (km)",
@@ -262,11 +262,13 @@ potential_resuts = ({
         "mAm⁻²",
         ]
                      })
-st.dataframe(potential_resuts, hide_index = True, use_container_width=True)
+#st.dataframe(potential_resuts, hide_index = True, use_container_width=True)
 
 #======================
 #Deriving data for plot
 #======================
+st.header("IR Free Potential")
+
 x = np.linspace(0, parameters["pipeline_length"], 500)
 d = parameters["Anode separation-pipeline"] #(set to equal input from above)
 Eirf_values = []
@@ -282,49 +284,124 @@ for x_value in x:
 #==============
 #Plotting graph
 #==============
+
 fig = go.Figure()
 
+# ============================================================
+# Eirf curve
+# ============================================================
 fig.add_trace(
     go.Scatter(
         x=x / 1000,
         y=Eirf_values,
         mode="lines",
-        line=dict(color="blue"),
+        line=dict(
+            color="blue",
+            width=2.5
+        ),
         name=r"$E_{irf}(x)$"
     )
 )
 
+# ============================================================
+# Protection criterion
+# ============================================================
 fig.add_trace(
     go.Scatter(
         x=x / 1000,
         y=np.full_like(x, parameters["Protection criterion"]),
         mode="lines",
-        line=dict(dash="dash", color="green"),
+        line=dict(
+            color="green",
+            width=1.8,
+            dash="dash"
+        ),
         name="Protection criterion"
     )
 )
 
+# ============================================================
+# Over-polarisation limit
+# ============================================================
 fig.add_trace(
     go.Scatter(
         x=x / 1000,
         y=np.full_like(x, parameters["Over polarisation limit"]),
         mode="lines",
-        line=dict(dash="dash", color="red"),
+        line=dict(
+            color="red",
+            width=1.8,
+            dash="dash"
+        ),
         name="Over-polarisation limit"
     )
 )
 
+# ============================================================
+# Layout
+# ============================================================
 fig.update_layout(
-    title="IR-Free Pipe-to-Soil Potential Along Pipeline",
-    xaxis_title="Pipeline chainage (km)",
-    yaxis_title="Eirf (V)",
-    legend_title="Legend",
-    hovermode="x unified"
+
+    title=dict(
+        text="IR-Free Pipe-to-Soil Potential Along Pipeline",
+        x=0.5,
+        xanchor="center",
+        font=dict(
+            size=20
+        )
+    ),
+
+    xaxis=dict(
+        title=dict(
+            text="Pipeline chainage (km)",
+            font=dict(size=15)
+        ),
+        tickfont=dict(size=12),
+        showgrid=True,
+        gridcolor="lightgray",
+        zeroline=False
+    ),
+
+    yaxis=dict(
+        title=dict(
+            text="IR-Free Pipe-to-Soil Potential, E<sub>irf</sub> (V)",
+            font=dict(size=15)
+        ),
+        tickfont=dict(size=12),
+        showgrid=True,
+        gridcolor="lightgray",
+        zeroline=False
+    ),
+
+    legend=dict(
+        title="",
+        orientation="h",
+        yanchor="bottom",
+        y=1.02,
+        xanchor="center",
+        x=0.5,
+        font=dict(size=12)
+    ),
+
+    hovermode="x unified",
+
+    template="simple_white",
+
+    margin=dict(
+        l=80,
+        r=40,
+        t=100,
+        b=80
+    ),
+
+    height=600
 )
 
-st.plotly_chart(fig, use_container_width=True, key="eirf_graph")
-
-
+st.plotly_chart(
+    fig,
+    use_container_width=True,
+    key="eirf_graph"
+)
 
 #================
 #Finding Minimums
@@ -439,45 +516,121 @@ fig3d.add_trace(
 
 st.plotly_chart(fig3d, use_container_width=True, key="eirf_3d_graph")
 
-#===================
-#Plotting worst case
-#===================
+
 fig2 = go.Figure()
 
+# ============================================================
+# Worst-case E curve
+# ============================================================
 fig2.add_trace(
     go.Scatter(
         x=d,
         y=E_worst,
         mode="lines",
-        name="Eworst"
+        line=dict(
+            color="blue",
+            width=2.5
+        ),
+        name=r"$E_{worst}(d)$"
     )
 )
 
+# ============================================================
+# Protection criterion
+# ============================================================
 fig2.add_trace(
     go.Scatter(
         x=d,
         y=np.full_like(d, parameters["Protection criterion"]),
         mode="lines",
-        name="Protection criterion",
-        line=dict(dash="dash")
+        line=dict(
+            color="green",
+            width=1.8,
+            dash="dash"
+        ),
+        name="Protection criterion"
     )
 )
 
+# ============================================================
+# Over-polarisation limit
+# ============================================================
 fig2.add_trace(
     go.Scatter(
         x=d,
         y=np.full_like(d, parameters["Over polarisation limit"]),
         mode="lines",
-        name="Over-polarisation limit",
-        line=dict(dash="dash")
+        line=dict(
+            color="red",
+            width=1.8,
+            dash="dash"
+        ),
+        name="Over-polarisation limit"
     )
 )
 
+# ============================================================
+# Layout
+# ============================================================
 fig2.update_layout(
-    title="Worst Eirf vs Anode-Pipeline Distance",
-    xaxis_title="Anode-pipeline distance (m)",
-    yaxis_title="Eworst (V)",
-    hovermode="x unified"
+
+    title=dict(
+        text="Worst-Case IR-Free Pipe-to-Soil Potential vs Anode-Pipeline Distance",
+        x=0.5,
+        xanchor="center",
+        font=dict(
+            size=20
+        )
+    ),
+
+    xaxis=dict(
+        title=dict(
+            text="Anode-pipeline distance (m)",
+            font=dict(size=15)
+        ),
+        tickfont=dict(size=12),
+        showgrid=True,
+        gridcolor="lightgray",
+        zeroline=False
+    ),
+
+    yaxis=dict(
+        title=dict(
+            text="E<sub>worst</sub> (V)",
+            font=dict(size=15)
+        ),
+        tickfont=dict(size=12),
+        showgrid=True,
+        gridcolor="lightgray",
+        zeroline=False
+    ),
+
+    legend=dict(
+        title="",
+        orientation="h",
+        yanchor="bottom",
+        y=1.02,
+        xanchor="center",
+        x=0.5,
+        font=dict(size=12)
+    ),
+
+    hovermode="x unified",
+
+    template="simple_white",
+
+    margin=dict(
+        l=80,
+        r=40,
+        t=100,
+        b=80
+    ),
+
+    height=600
 )
 
-st.plotly_chart(fig2, use_container_width=True, key="eworst_graph")
+st.plotly_chart(
+    fig2,
+    use_container_width=True,
+    key="eworst_graph"
+)
