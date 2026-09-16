@@ -3,5 +3,5 @@ matplotlib
 plotly
 streamlit
 pandas
-openpxyl
+
 
