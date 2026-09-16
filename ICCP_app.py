@@ -467,41 +467,51 @@ worst_index = np.argmin(Eirf_values2, axis=1)
 x_worst = X[np.arange(len(d)), worst_index]
 E_worst = Eirf_values2[np.arange(len(d)), worst_index]
 
-st.write("Eirf minimum:", np.min(Eirf_values2))
-st.write("Eirf maximum:", np.max(Eirf_values2))
-st.write("Eirf shape:", Eirf_values2.shape)
 
-#=======
-#3D plot
-#=======
+
 fig3d = go.Figure()
 
+# ============================================================
+# Eirf surface
+# ============================================================
 fig3d.add_trace(
     go.Surface(
         x=X / 1000,
         y=D,
         z=Eirf_values2,
-        name="Eirf"))
-
-fig3d.update_layout(
-    scene=dict(
-        xaxis_title="Pipeline chainage (km)",
-        yaxis_title="Anode-pipeline distance (m)",
-        zaxis_title="Eirf (V)"
-    ),
-    title="Eirf along pipeline for different anode distances"
+        name=r"$E_{irf}$",
+        colorbar=dict(
+            title="E<sub>irf</sub> (V)"
+        )
+    )
 )
-protection = np.full_like(X, parameters["Protection criterion"])
+
+# ============================================================
+# Protection criterion surface
+# ============================================================
+protection = np.full_like(
+    X,
+    parameters["Protection criterion"]
+)
+
 fig3d.add_trace(
     go.Surface(
         x=X / 1000,
         y=D,
         z=protection,
         name="Protection criterion",
-        opacity=0.4
+        opacity=0.35,
+        showscale=False
     )
 )
-over_polarisation = np.full_like(X, parameters["Over polarisation limit"])
+
+# ============================================================
+# Over-polarisation limit surface
+# ============================================================
+over_polarisation = np.full_like(
+    X,
+    parameters["Over polarisation limit"]
+)
 
 fig3d.add_trace(
     go.Surface(
@@ -509,12 +519,73 @@ fig3d.add_trace(
         y=D,
         z=over_polarisation,
         name="Over-polarisation limit",
-        opacity=0.4
+        opacity=0.35,
+        showscale=False
     )
 )
 
-st.plotly_chart(fig3d, use_container_width=True, key="eirf_3d_graph")
+# ============================================================
+# Layout
+# ============================================================
+fig3d.update_layout(
 
+    title=dict(
+        text="IR-Free Pipe-to-Soil Potential Along Pipeline",
+        x=0.5,
+        xanchor="center",
+        font=dict(size=20)
+    ),
+
+    scene=dict(
+
+        xaxis=dict(
+            title=dict(
+                text="Pipeline chainage (km)",
+                font=dict(size=15)
+            ),
+            tickfont=dict(size=11),
+            showgrid=True,
+            gridcolor="lightgray"
+        ),
+
+        yaxis=dict(
+            title=dict(
+                text="Anode-pipeline distance (m)",
+                font=dict(size=15)
+            ),
+            tickfont=dict(size=11),
+            showgrid=True,
+            gridcolor="lightgray"
+        ),
+
+        zaxis=dict(
+            title=dict(
+                text="E<sub>irf</sub> (V)",
+                font=dict(size=15)
+            ),
+            tickfont=dict(size=11),
+            showgrid=True,
+            gridcolor="lightgray"
+        )
+    ),
+
+    template="simple_white",
+
+    height=750,
+
+    margin=dict(
+        l=20,
+        r=20,
+        t=100,
+        b=20
+    )
+)
+
+st.plotly_chart(
+    fig3d,
+    use_container_width=True,
+    key="eirf_3d_graph"
+)
 
 fig2 = go.Figure()
 
