@@ -308,14 +308,14 @@ fig.add_trace(
 fig.add_trace(
     go.Scatter(
         x=x / 1000,
-        y=np.full_like(x, parameters["Protection criterion = -0.85 V"]),
+        y=np.full_like(x, parameters["Protection criterion"]),
         mode="lines",
         line=dict(
             color="green",
             width=1.8,
             dash="dash"
         ),
-        name="Protection criterion"
+        name="Protection criterion = -0.85 V"
     )
 )
 
@@ -325,14 +325,14 @@ fig.add_trace(
 fig.add_trace(
     go.Scatter(
         x=x / 1000,
-        y=np.full_like(x, parameters["Over polarisation limit = -1.2 V"]),
+        y=np.full_like(x, parameters["Over polarisation limit"]),
         mode="lines",
         line=dict(
             color="red",
             width=1.8,
             dash="dash"
         ),
-        name="Over-polarisation limit"
+        name="Over-polarisation limit = -1.2 V"
     )
 )
 
