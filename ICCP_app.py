@@ -268,7 +268,7 @@ potential_resuts = ({
 #======================
 st.header("IR Free Potential")
 
-x = np.linspace(0, (parameters["pipeline_length"] + 5), 500)
+x = np.linspace(0, (parameters["pipeline_length"] + 500), 500)
 d = parameters["Anode separation-pipeline"] #(set to equal input from above)
 Eirf_values = []
 for x_value in x:
@@ -358,7 +358,10 @@ fig.update_layout(
         tickfont=dict(size=12),
         showgrid=True,
         gridcolor="lightgray",
-        zeroline=False
+        zeroline=False,
+        range=[
+            0,
+            (parameters["pipeline_length"]/1000 + 5)]
     ),
 
     yaxis=dict(
