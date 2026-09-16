@@ -413,9 +413,6 @@ graph1_data = pd.DataFrame({
     "Pipeline chainage (km)": x / 1000,
     "Eirf (V)": Eirf_values
 })
-
-with st.expander("View / export graph data"):
-    st.write("TEST - THIS IS WORKING")
     
 
 #================
@@ -730,51 +727,3 @@ graph2_data = pd.DataFrame({
     "Eworst (V)": E_worst
 })
 
-with st.expander("View / export Eworst graph data"):
-
-    st.write(
-        "The table below shows a preview of the data used "
-        "to produce the Eworst graph."
-    )
-
-    # Display only first 10 rows
-    st.dataframe(
-        graph2_data.head(10),
-        use_container_width=True,
-        hide_index=True
-    )
-
-    st.write(
-        f"Showing first 10 of {len(graph2_data)} data points."
-    )
-
-    # --------------------------------------
-    # Create Excel file
-    # --------------------------------------
-
-    excel_buffer2 = BytesIO()
-
-    with pd.ExcelWriter(
-        excel_buffer2,
-        engine="openpyxl"
-    ) as writer:
-
-        graph2_data.to_excel(
-            writer,
-            index=False,
-            sheet_name="Eworst Data"
-        )
-
-    excel_buffer2.seek(0)
-
-    # --------------------------------------
-    # Download button
-    # --------------------------------------
-
-    st.download_button(
-        label="Export Eworst data to Excel",
-        data=excel_buffer2,
-        file_name="Eworst_vs_distance.xlsx",
-        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        key="download_eworst_excel"
-    )
