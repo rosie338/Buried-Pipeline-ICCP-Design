@@ -268,7 +268,7 @@ potential_resuts = ({
 #======================
 st.header("IR Free Potential")
 
-x = np.linspace(0, (parameters["pipeline_length"] + 500), 500)
+x = np.linspace(0, (parameters["pipeline_length"] + 5000), 500)
 d = parameters["Anode separation-pipeline"] #(set to equal input from above)
 Eirf_values = []
 for x_value in x:
@@ -434,7 +434,7 @@ minimum_points = ({
 #=========================
 #Deriving data for 3D plot
 #=========================
-x = np.linspace(0, parameters["pipeline_length"] + 5, 600)
+x = np.linspace(0, parameters["pipeline_length"] + 5000, 600)
 
 d = np.linspace(5, 200, 600)
 
