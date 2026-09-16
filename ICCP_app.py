@@ -268,7 +268,7 @@ potential_resuts = ({
 #======================
 st.header("IR Free Potential")
 
-x = np.linspace(0, (parameters["pipeline_length"] + 5000), 500)
+x = np.linspace(0, (parameters["pipeline_length"] + 4307), 500)
 d = parameters["Anode separation-pipeline"] #(set to equal input from above)
 Eirf_values = []
 for x_value in x:
@@ -358,10 +358,7 @@ fig.update_layout(
         tickfont=dict(size=12),
         showgrid=True,
         gridcolor="lightgray",
-        zeroline=False,
-        range=[
-            0,
-            (parameters["pipeline_length"]/1000 + 5)]
+        zeroline=False
     ),
 
     yaxis=dict(
@@ -434,7 +431,7 @@ minimum_points = ({
 #=========================
 #Deriving data for 3D plot
 #=========================
-x = np.linspace(0, parameters["pipeline_length"] + 5000, 600)
+x = np.linspace(0, parameters["pipeline_length"] + 4307, 600)
 
 d = np.linspace(5, 200, 600)
 
@@ -638,7 +635,7 @@ fig2.add_trace(
             width=1.8,
             dash="dash"
         ),
-        name="Over-polarisation limiT = -1.2 V"
+        name="Over-polarisation limit = -1.2 V"
     )
 )
 
