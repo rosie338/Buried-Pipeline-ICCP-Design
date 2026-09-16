@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import streamlit as st
 import pandas as pd
+from io import BytesIO
 
 st.title("ICCP Pipeline Calculator")
 
@@ -279,6 +280,64 @@ for x_value in x:
     j = (Ved- pipe_metal_potential)/insulation_res
     Eirf = parameters["Natural potential"] - (j*polar_res)
     Eirf_values.append(Eirf)
+
+# ==========================================
+# Eirf data table and Excel export
+# ==========================================
+
+graph1_data = pd.DataFrame({
+    "Pipeline chainage (km)": x / 1000,
+    "Eirf (V)": Eirf_values
+})
+
+with st.expander("View / export Eirf graph data"):
+
+    st.write(
+        "The table below shows a preview of the data used "
+        "to produce the Eirf graph."
+    )
+
+    # Display only first 10 rows
+    st.dataframe(
+        graph1_data.head(10),
+        use_container_width=True,
+        hide_index=True
+    )
+
+    st.write(
+        f"Showing first 10 of {len(graph1_data)} data points."
+    )
+
+    # --------------------------------------
+    # Create Excel file
+    # --------------------------------------
+
+    excel_buffer1 = BytesIO()
+
+    with pd.ExcelWriter(
+        excel_buffer1,
+        engine="openpyxl"
+    ) as writer:
+
+        graph1_data.to_excel(
+            writer,
+            index=False,
+            sheet_name="Eirf Data"
+        )
+
+    excel_buffer1.seek(0)
+
+    # --------------------------------------
+    # Download button
+    # --------------------------------------
+
+    st.download_button(
+        label="Export Eirf data to Excel",
+        data=excel_buffer1,
+        file_name="Eirf_vs_chainage.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        key="download_eirf_excel"
+    )
 
 #==============
 #Plotting graph
@@ -704,3 +763,61 @@ st.plotly_chart(
     use_container_width=True,
     key="eworst_graph"
 )
+
+# ==========================================
+# Eworst data table and Excel export
+# ==========================================
+
+graph2_data = pd.DataFrame({
+    "Anode-pipeline distance (m)": d,
+    "Eworst (V)": E_worst
+})
+
+with st.expander("View / export Eworst graph data"):
+
+    st.write(
+        "The table below shows a preview of the data used "
+        "to produce the Eworst graph."
+    )
+
+    # Display only first 10 rows
+    st.dataframe(
+        graph2_data.head(10),
+        use_container_width=True,
+        hide_index=True
+    )
+
+    st.write(
+        f"Showing first 10 of {len(graph2_data)} data points."
+    )
+
+    # --------------------------------------
+    # Create Excel file
+    # --------------------------------------
+
+    excel_buffer2 = BytesIO()
+
+    with pd.ExcelWriter(
+        excel_buffer2,
+        engine="openpyxl"
+    ) as writer:
+
+        graph2_data.to_excel(
+            writer,
+            index=False,
+            sheet_name="Eworst Data"
+        )
+
+    excel_buffer2.seek(0)
+
+    # --------------------------------------
+    # Download button
+    # --------------------------------------
+
+    st.download_button(
+        label="Export Eworst data to Excel",
+        data=excel_buffer2,
+        file_name="Eworst_vs_distance.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        key="download_eworst_excel"
+    )
