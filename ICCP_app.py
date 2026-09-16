@@ -220,10 +220,9 @@ st.dataframe(results, hide_index = True, use_container_width=True)
 #======================
 #st.header("Earth Potential Calculations at Given Chainage and Anode-Pipeline Distance")
 
-zeta = st.number_input(
-    "Input Chainage from active anode bed (km)",
-    value=20.91
-)
+#zeta = st.number_input(
+#    "Input Chainage from active anode bed (km)",
+#    value=20.91)
 
 def earth_potential_rise(zeta, d):
     distance = np.sqrt(((zeta*1000) - np.array(non_zero_icv) * 1000)**2 + d**2 )
@@ -299,7 +298,7 @@ fig.add_trace(
             color="blue",
             width=2.5
         ),
-        name=r"$E_{irf}(x)$"
+        name="E<sub>irf</sub>(X)"
     )
 )
 
@@ -309,7 +308,7 @@ fig.add_trace(
 fig.add_trace(
     go.Scatter(
         x=x / 1000,
-        y=np.full_like(x, parameters["Protection criterion"]),
+        y=np.full_like(x, parameters["Protection criterion = -0.85 V"]),
         mode="lines",
         line=dict(
             color="green",
@@ -326,7 +325,7 @@ fig.add_trace(
 fig.add_trace(
     go.Scatter(
         x=x / 1000,
-        y=np.full_like(x, parameters["Over polarisation limit"]),
+        y=np.full_like(x, parameters["Over polarisation limit = -1.2 V"]),
         mode="lines",
         line=dict(
             color="red",
@@ -415,7 +414,7 @@ x_at_min = x[min_index]
 minimum_points = ({
     "Parameters": [
         "Minimum IR Free Potential/Worst E",
-        "Chainage at Minimum $E_{irf}$",
+        "Chainage at Minimum  E<sub>irf</sub>",
         ],
     "Value": [
         minE,
@@ -426,7 +425,7 @@ minimum_points = ({
         "km",
         ]
                      })
-st.dataframe(minimum_points, hide_index = True, use_container_width=True)
+#st.dataframe(minimum_points, hide_index = True, use_container_width=True)
 
 
 #=========================
@@ -531,7 +530,7 @@ fig2.add_trace(
             color="blue",
             width=2.5
         ),
-        name=r"$E_{worst}(d)$"
+        name=r" E<sub>irf, worst</sub>"
     )
 )
 
@@ -548,7 +547,7 @@ fig2.add_trace(
             width=1.8,
             dash="dash"
         ),
-        name="Protection criterion"
+        name="Protection criterion = -0.85 V"
     )
 )
 
@@ -565,7 +564,7 @@ fig2.add_trace(
             width=1.8,
             dash="dash"
         ),
-        name="Over-polarisation limit"
+        name="Over-polarisation limiT = -1.2 V"
     )
 )
 
@@ -596,7 +595,7 @@ fig2.update_layout(
 
     yaxis=dict(
         title=dict(
-            text="E<sub>worst</sub> (V)",
+            text="E<sub>irf</sub> (V)",
             font=dict(size=15)
         ),
         tickfont=dict(size=12),
