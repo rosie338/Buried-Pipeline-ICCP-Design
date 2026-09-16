@@ -431,7 +431,7 @@ minimum_points = ({
 #=========================
 #Deriving data for 3D plot
 #=========================
-x = np.linspace(0, parameters["pipeline_length"], 600)
+x = np.linspace(0, parameters["pipeline_length"] + 5, 600)
 
 d = np.linspace(5, 200, 600)
 
