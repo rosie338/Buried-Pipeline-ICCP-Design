@@ -281,63 +281,7 @@ for x_value in x:
     Eirf = parameters["Natural potential"] - (j*polar_res)
     Eirf_values.append(Eirf)
 
-# ==========================================
-# Eirf data table and Excel export
-# ==========================================
 
-graph1_data = pd.DataFrame({
-    "Pipeline chainage (km)": x / 1000,
-    "Eirf (V)": Eirf_values
-})
-
-with st.expander("View / export Eirf graph data"):
-
-    st.write(
-        "The table below shows a preview of the data used "
-        "to produce the Eirf graph."
-    )
-
-    # Display only first 10 rows
-    st.dataframe(
-        graph1_data.head(10),
-        use_container_width=True,
-        hide_index=True
-    )
-
-    st.write(
-        f"Showing first 10 of {len(graph1_data)} data points."
-    )
-
-    # --------------------------------------
-    # Create Excel file
-    # --------------------------------------
-
-    excel_buffer1 = BytesIO()
-
-    with pd.ExcelWriter(
-        excel_buffer1,
-        engine="openpyxl"
-    ) as writer:
-
-        graph1_data.to_excel(
-            writer,
-            index=False,
-            sheet_name="Eirf Data"
-        )
-
-    excel_buffer1.seek(0)
-
-    # --------------------------------------
-    # Download button
-    # --------------------------------------
-
-    st.download_button(
-        label="Export Eirf data to Excel",
-        data=excel_buffer1,
-        file_name="Eirf_vs_chainage.xlsx",
-        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        key="download_eirf_excel"
-    )
 
 #==============
 #Plotting graph
@@ -460,6 +404,64 @@ st.plotly_chart(
     use_container_width=True,
     key="eirf_graph"
 )
+
+# ==========================================
+# Eirf data table and Excel export
+# ==========================================
+
+graph1_data = pd.DataFrame({
+    "Pipeline chainage (km)": x / 1000,
+    "Eirf (V)": Eirf_values
+})
+
+with st.expander("View / export Eirf graph data"):
+
+    st.write(
+        "The table below shows a preview of the data used "
+        "to produce the Eirf graph."
+    )
+
+    # Display only first 10 rows
+    st.dataframe(
+        graph1_data.head(10),
+        use_container_width=True,
+        hide_index=True
+    )
+
+    st.write(
+        f"Showing first 10 of {len(graph1_data)} data points."
+    )
+
+    # --------------------------------------
+    # Create Excel file
+    # --------------------------------------
+
+    excel_buffer1 = BytesIO()
+
+    with pd.ExcelWriter(
+        excel_buffer1,
+        engine="openpyxl"
+    ) as writer:
+
+        graph1_data.to_excel(
+            writer,
+            index=False,
+            sheet_name="Eirf Data"
+        )
+
+    excel_buffer1.seek(0)
+
+    # --------------------------------------
+    # Download button
+    # --------------------------------------
+
+    st.download_button(
+        label="Export Eirf data to Excel",
+        data=excel_buffer1,
+        file_name="Eirf_vs_chainage.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        key="download_eirf_excel"
+    )
 
 #================
 #Finding Minimums
