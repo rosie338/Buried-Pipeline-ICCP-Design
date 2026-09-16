@@ -409,10 +409,21 @@ st.plotly_chart(
 # Eirf data table and Excel export
 # ==========================================
 
-graph1_data = pd.DataFrame({
+# Export data for Eirf graph
+eirf_data = pd.DataFrame({
     "Pipeline chainage (km)": x / 1000,
     "Eirf (V)": Eirf_values
 })
+
+csv_eirf = eirf_data.to_csv(index=False).encode("utf-8")
+
+st.download_button(
+    label="📥 Export Eirf data (CSV)",
+    data=csv_eirf,
+    file_name="Eirf_pipeline_data.csv",
+    mime="text/csv",
+    key="download_eirf"
+)
     
 
 #================
@@ -722,8 +733,25 @@ st.plotly_chart(
 # Eworst data table and Excel export
 # ==========================================
 
-graph2_data = pd.DataFrame({
+# Export data for Eworst graph
+eworst_data = pd.DataFrame({
     "Anode-pipeline distance (m)": d,
-    "Eworst (V)": E_worst
+    "E (V)": E_worst,
+    "Protection criterion (V)": np.full_like(
+        d, parameters["Protection criterion"]
+    ),
+    "Over-polarisation limit (V)": np.full_like(
+        d, parameters["Over polarisation limit"]
+    )
 })
+
+csv_eworst = eworst_data.to_csv(index=False).encode("utf-8")
+
+st.download_button(
+    label="📥 Export Eworst data (CSV)",
+    data=csv_eworst,
+    file_name="Eworst_anode_distance_data.csv",
+    mime="text/csv",
+    key="download_eworst"
+)
 
