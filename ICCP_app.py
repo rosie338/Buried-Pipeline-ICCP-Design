@@ -6,84 +6,90 @@ import streamlit as st
 import pandas as pd
 from io import BytesIO
 
+st.set_page_config(
+    page_title="ICCP Calculator",
+    page_icon="logo.png",
+    layout="wide"
+)
 st.title("ICCP Pipeline Calculator")
 
 #================
 #Input parameters
 #================
-st.header("Input parameters")
+with st.sidebar:
+    st.header("Input parameters")
 
-pipeline_od = st.number_input(
-    "Pipeline OD (m)",
-    value=1.6
-)
+    pipeline_od = st.number_input(
+        "Pipeline OD (m)",
+        value=1.6
+    )
 
-wall_thickness = st.number_input(
-    "Wall thickness (m)",
-    value=0.0127
-)
+    wall_thickness = st.number_input(
+        "Wall thickness (m)",
+        value=0.0127
+    )
 
-pipeline_length = st.number_input(
-    "Pipeline length (m)",
-    value=25693.0
-)
+    pipeline_length = st.number_input(
+        "Pipeline length (m)",
+        value=25693.0
+    )
 
-steel_resistivity = st.number_input(
-    "Steel resistivity (Ωm)",
-    value=1.8e-7,
-    format="%.2e"
-)
+    steel_resistivity = st.number_input(
+        "Steel resistivity (Ωm)",
+        value=1.8e-7,
+        format="%.2e"
+    )
 
-soil_resistivity = st.number_input(
-    "Soil resistivity (Ωm)",
-    value=162.0
-)
+    soil_resistivity = st.number_input(
+        "Soil resistivity (Ωm)",
+        value=162.0
+    )
 
-coating_quality = st.number_input(
-    "Coating quality",
-    value=10000.0
-)
+    coating_quality = st.number_input(
+        "Coating quality",
+        value=10000.0
+    )
 
-design_current_density = st.number_input(
-    "Design current density (A/m²)",
-    value=1e-5,
-    format="%.2e"
-)
+    design_current_density = st.number_input(
+        "Design current density (A/m²)",
+        value=1e-5,
+        format="%.2e"
+    )
 
-coating_bd_factor = st.number_input(
-    "Coating breakdown factor",
-    value=1.15
-)
+    coating_bd_factor = st.number_input(
+        "Coating breakdown factor",
+        value=1.15
+    )
 
-natural_potential = st.number_input(
-    "Natural potential (V)",
-    value=-0.5
-)
+    natural_potential = st.number_input(
+        "Natural potential (V)",
+        value=-0.5
+    )
 
-protection_criterion = st.number_input(
-    "Protection criterion (V)",
-    value=-0.85
-)
+    protection_criterion = st.number_input(
+        "Protection criterion (V)",
+        value=-0.85
+    )
 
-over_polarisation_limit = st.number_input(
-    "Over-polarisation limit (V)",
-    value=-1.2
-)
+    over_polarisation_limit = st.number_input(
+        "Over-polarisation limit (V)",
+        value=-1.2
+    )
 
-anode_separation = st.number_input(
-    "Anode-pipeline distance (m)",
-    value=25.0
-)
+    anode_separation = st.number_input(
+        "Anode-pipeline distance (m)",
+        value=25.0
+    )
 
-back_emf = st.number_input(
-    "Back EMF allowance (V)",
-    value=2.0
-)
+    back_emf = st.number_input(
+        "Back EMF allowance (V)",
+        value=2.0
+    )
 
-cable_resistance = st.number_input(
-    "Cable resistance per installation (Ω)",
-    value=0.2
-)
+    cable_resistance = st.number_input(
+        "Cable resistance per installation (Ω)",
+        value=0.2
+    )
 
 #============
 #Dictionary
